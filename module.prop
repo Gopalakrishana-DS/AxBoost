@@ -1,0 +1,7 @@
+id=axboost
+name=AxBoost
+version=0.7.0
+versionCode=8
+author=Gopal M & OpenAI
+description=Safe reversible profiles, WebUI controls, display and power tools, game launcher, diagnostics, battery health, and plugin conflict detection.
+axeronPlugin=3

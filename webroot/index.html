@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="color-scheme" content="dark light">
+  <title>AxBoost</title>
+  <style>
+    :root{--bg:#0b0d12;--card:#151923;--card2:#1b2030;--text:#f4f6fb;--muted:#9ba5b7;--accent:#8ea7ff;--good:#61d095;--warn:#ffca6a;--bad:#ff7d8b;--line:#2a3142;--shadow:0 14px 34px rgba(0,0,0,.28)}
+    @media(prefers-color-scheme:light){:root{--bg:#f2f5fb;--card:#fff;--card2:#f7f9fd;--text:#161a22;--muted:#626d80;--accent:#385bd8;--good:#17834f;--warn:#a96800;--bad:#bf3045;--line:#dce2ee;--shadow:0 12px 28px rgba(35,48,78,.10)}}
+    *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--text);font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
+    .wrap{max-width:760px;margin:auto;padding:18px}.hero{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:6px 0 18px}.brand{display:flex;align-items:center;gap:12px}.logo{width:46px;height:46px;border-radius:15px;background:linear-gradient(145deg,var(--accent),#906cff);display:grid;place-items:center;color:white;font-size:23px;font-weight:850;box-shadow:var(--shadow)}
+    h1{font-size:25px;margin:0}.sub{color:var(--muted);font-size:13px}.pill{border:1px solid var(--line);background:var(--card);padding:7px 10px;border-radius:999px;color:var(--muted);font-size:12px}.pill.good{color:var(--good)}.pill.bad{color:var(--bad)}
+    .tabs{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:14px}.tab{border:1px solid var(--line);background:var(--card);color:var(--muted);padding:10px 4px;border-radius:12px;font-weight:700}.tab.active{background:var(--accent);border-color:transparent;color:white}
+    .panel{display:none}.panel.active{display:block}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:13px;box-shadow:var(--shadow)}.card h2{font-size:17px;margin:0 0 12px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.metric{background:var(--card2);border-radius:13px;padding:12px}.metric b{display:block;font-size:18px;margin-top:3px;overflow-wrap:anywhere}.metric span{font-size:12px;color:var(--muted)}
+    .profiles{display:grid;gap:10px}.profile{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;background:var(--card2);padding:14px;border-radius:14px}.profile strong{display:block;font-size:16px}.profile small{color:var(--muted)}
+    button{font:inherit}.btn{border:0;border-radius:11px;padding:10px 13px;background:var(--accent);color:white;font-weight:750}.btn.secondary{background:transparent;border:1px solid var(--line);color:var(--text)}.btn.good{background:var(--good);color:#07170f}.btn.warn{background:var(--warn);color:#241600}.btn:disabled{opacity:.45}.actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:12px}
+    input{width:100%;border:1px solid var(--line);background:var(--card2);color:var(--text);border-radius:11px;padding:12px;outline:none}.row{display:flex;gap:8px}.row input{flex:1}.list{display:grid;gap:8px;margin-top:12px}.game{display:flex;align-items:center;justify-content:space-between;gap:8px;background:var(--card2);padding:10px 12px;border-radius:11px}.game code{overflow-wrap:anywhere}.x{border:0;background:transparent;color:var(--bad);font-size:18px;padding:4px 8px}
+    pre{margin:0;white-space:pre-wrap;overflow-wrap:anywhere;background:#080a0f;color:#d9e2f2;border-radius:13px;padding:13px;min-height:130px;max-height:420px;overflow:auto;font:12px/1.5 ui-monospace,SFMono-Regular,Consolas,monospace}.notice{color:var(--muted);font-size:12px;margin-top:10px}.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(80px);opacity:0;background:#202636;color:white;padding:11px 15px;border-radius:12px;transition:.22s;z-index:9;max-width:88%;text-align:center}.toast.show{transform:translateX(-50%) translateY(0);opacity:1}.spinner{display:none;width:18px;height:18px;border:2px solid var(--line);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}.busy .spinner{display:block}@keyframes spin{to{transform:rotate(360deg)}}
+    @media(max-width:520px){.wrap{padding:13px}.grid{grid-template-columns:1fr 1fr}.tabs{gap:5px}.tab{font-size:12px}.profile{grid-template-columns:1fr}.profile .btn{width:100%}}
+  </style>
+</head>
+<body>
+<div class="wrap" id="app">
+  <header class="hero"><div class="brand"><div class="logo">A</div><div><h1>AxBoost</h1><div class="sub">Safe, reversible performance profiles</div></div></div><div style="display:flex;align-items:center;gap:8px"><div class="spinner"></div><span id="bridge" class="pill">Checking bridge…</span></div></header>
+  <nav class="tabs"><button class="tab active" data-tab="home">Overview</button><button class="tab" data-tab="profiles">Profiles</button><button class="tab" data-tab="games">Games</button><button class="tab" data-tab="tools">Tools</button><button class="tab" data-tab="diagnostics">Diagnostics</button><button class="tab" data-tab="logs">Logs</button></nav>
+
+  <section id="home" class="panel active">
+    <div class="card"><h2>Current status</h2><div class="grid">
+      <div class="metric"><span>Profile</span><b id="profile">—</b></div><div class="metric"><span>Peak refresh</span><b id="refresh">—</b></div>
+      <div class="metric"><span>Battery temperature</span><b id="battery">—</b></div><div class="metric"><span>Available RAM</span><b id="ram">—</b></div>
+      <div class="metric"><span>Battery health</span><b id="batteryHealth">—</b></div><div class="metric"><span>Charge cycles</span><b id="batteryCycles">—</b></div>
+      <div class="metric"><span>Device</span><b id="device">—</b></div><div class="metric"><span>Android</span><b id="android">—</b></div>
+    </div><div class="actions"><button class="btn secondary" onclick="refreshAll()">Refresh</button><button class="btn secondary" onclick="showRawStatus()">Raw status</button></div></div>
+    <div class="card"><h2>Safety</h2><div class="sub">AxBoost does not disable thermal protection, V-Sync, or modify CPU/GPU governors. Balanced restores values backed up before AxBoost changed them.</div></div>
+  </section>
+
+  <section id="profiles" class="panel">
+    <div class="card"><h2>Choose a profile</h2><div class="profiles">
+      <div class="profile"><div><strong>Gaming</strong><small>Highest detected refresh, shorter animations, reduced window blur, Game Mode performance.</small></div><button class="btn" onclick="applyProfile('gaming')">Apply</button></div>
+      <div class="profile"><div><strong>Balanced</strong><small>Restore exact backed-up settings and return configured games to standard mode.</small></div><button class="btn good" onclick="applyProfile('balanced')">Restore</button></div>
+      <div class="profile"><div><strong>Battery</strong><small>60 Hz request, shorter animations, reduced window blur, Game Mode battery.</small></div><button class="btn warn" onclick="applyProfile('battery')">Apply</button></div>
+    </div><div class="actions"><button class="btn secondary" onclick="previewProfile('gaming')">Preview Gaming</button><button class="btn secondary" onclick="previewProfile('battery')">Preview Battery</button></div><p class="notice">Restart a game after changing its Android Game Mode.</p></div>
+    <div class="card"><h2>Command output</h2><pre id="profileOutput">Select a profile or preview.</pre></div>
+  </section>
+
+  <section id="games" class="panel">
+    <div class="card"><h2>Configured games</h2><div class="row"><input id="pkg" placeholder="com.example.game" autocomplete="off" autocapitalize="none"><button class="btn" onclick="addGame()">Add</button></div><div id="gamesList" class="list"></div><p class="notice">Use the exact Android package name. Invalid names are rejected by both the WebUI and shell script.</p></div>
+  </section>
+
+  <section id="tools" class="panel">
+    <div class="card"><h2>Display</h2><div class="profiles">
+      <div class="profile"><div><strong>Refresh preference</strong><small>Request a supported peak rate or return control to the ROM.</small></div><div class="actions"><button class="btn secondary" onclick="displayRefresh('auto')">Auto</button><button class="btn secondary" onclick="displayRefresh('60')">60</button><button class="btn secondary" onclick="displayRefresh('90')">90</button><button class="btn" onclick="displayRefresh('120')">120</button></div></div>
+      <div class="profile"><div><strong>Animations</strong><small>Choose Android's standard animation scale settings.</small></div><div class="actions"><button class="btn secondary" onclick="animations('off')">Off</button><button class="btn" onclick="animations('fast')">0.5×</button><button class="btn secondary" onclick="animations('normal')">1×</button></div></div>
+      <div class="profile"><div><strong>Window blur</strong><small>Disable or re-enable cross-window blur. This does not change in-game rendering.</small></div><div class="actions"><button class="btn secondary" onclick="blur('on')">On</button><button class="btn" onclick="blur('off')">Off</button></div></div>
+    </div></div>
+    <div class="card"><h2>Power</h2><div class="profiles">
+      <div class="profile"><div><strong>Battery Saver</strong><small>Use Android's real PowerManager Battery Saver mode.</small></div><div class="actions"><button class="btn warn" onclick="power('saver','on')">On</button><button class="btn secondary" onclick="power('saver','off')">Off</button></div></div>
+      <div class="profile"><div><strong>Adaptive Battery Saver</strong><small>Available only when the ROM exposes the Android shell command.</small></div><div class="actions"><button class="btn warn" onclick="power('adaptive','on')">On</button><button class="btn secondary" onclick="power('adaptive','off')">Off</button></div></div>
+      <div class="actions"><button class="btn good" onclick="restorePower()">Restore previous power state</button></div>
+    </div>
+    <div class="card"><h2>Tool output</h2><pre id="toolOutput">Choose a display or power control.</pre><p class="notice">All display settings are included in AxBoost backup/restore. Power states are separately backed up when readable.</p></div>
+  </section>
+
+  <section id="diagnostics" class="panel">
+    <div class="card"><h2>Battery health</h2><div class="actions" style="margin:0 0 12px"><button class="btn secondary" onclick="loadBatteryInfo()">Refresh battery</button></div><pre id="batteryInfoOutput">Battery health and cycle data will appear here.</pre><p class="notice">Health may be reported by the battery controller or estimated from full-charge versus design capacity. Unsupported values remain unavailable.</p></div>
+    <div class="card"><h2>Device health</h2><div class="actions" style="margin:0 0 12px"><button class="btn secondary" onclick="loadHealth()">Refresh health</button><button class="btn secondary" onclick="loadConflicts()">Scan plugins</button></div><pre id="healthOutput">Open this tab to load current device health.</pre></div>
+    <div class="card"><h2>Potential plugin overlaps</h2><pre id="conflictOutput">Run the scanner to check readable AxManager plugin scripts.</pre><p class="notice">The scanner reports possible overlapping areas. It does not inspect native binaries and does not automatically disable anything.</p></div>
+  </section>
+
+  <section id="logs" class="panel">
+    <div class="card"><h2>Recent activity</h2><div class="actions" style="margin:0 0 12px"><button class="btn secondary" onclick="loadLogs()">Refresh</button><button class="btn secondary" onclick="copyLogs()">Copy</button></div><pre id="logOutput">Loading…</pre></div>
+  </section>
+</div>
+<div id="toast" class="toast"></div>
+<script>
+  const $=id=>document.getElementById(id);
+  let busy=false;
+  function hasBridge(){return typeof window.ksu !== 'undefined' && typeof window.ksu.exec === 'function'}
+  let callbackCounter=0;
+  function execCmd(cmd, options={}){
+    return new Promise((resolve,reject)=>{
+      if(!hasBridge()){reject(new Error('AxManager/KernelSU WebUI API not injected'));return}
+      const callbackName=`axboost_exec_${Date.now()}_${callbackCounter++}`;
+      let finished=false;
+      const cleanup=()=>{try{delete window[callbackName]}catch(_){window[callbackName]=undefined}};
+      const timer=setTimeout(()=>{if(finished)return;finished=true;cleanup();reject(new Error('Command timed out'))},20000);
+      window[callbackName]=(errno,stdout,stderr)=>{
+        if(finished)return;finished=true;clearTimeout(timer);cleanup();
+        const result={errno:Number(errno||0),stdout:String(stdout||''),stderr:String(stderr||'')};
+        if(result.errno!==0 && !result.stdout) reject(new Error(result.stderr||`Command failed (${result.errno})`));
+        else resolve(result.stdout||result.stderr);
+      };
+      try{window.ksu.exec(String(cmd),JSON.stringify(options||{}),callbackName)}
+      catch(e){clearTimeout(timer);cleanup();reject(e)}
+    });
+  }
+  function setBusy(v){busy=v;$('app').classList.toggle('busy',v);document.querySelectorAll('button').forEach(x=>x.disabled=v)}
+  function toast(msg){const el=$('toast');el.textContent=msg;el.classList.add('show');clearTimeout(window._toast);window._toast=setTimeout(()=>el.classList.remove('show'),2600)}
+  function parseStatus(raw){const get=k=>{const m=raw.match(new RegExp('^'+k+':\\s*(.+)$','mi'));return m?m[1].trim():'—'};$('profile').textContent=get('Profile');$('refresh').textContent=get('Peak refresh setting');$('battery').textContent=get('Battery temperature');$('ram').textContent=get('Available RAM');$('device').textContent=get('Model');$('android').textContent=get('Android')}
+  async function refreshAll(){setBusy(true);try{const raw=await execCmd('axboost status 2>&1');parseStatus(raw);await loadBatteryOverview();await loadGames(false);$('bridge').textContent='Bridge connected';$('bridge').className='pill good'}catch(e){$('bridge').textContent='Bridge unavailable';$('bridge').className='pill bad';toast(e.message)}finally{setBusy(false)}}
+  async function showRawStatus(){try{const out=await execCmd('axboost status 2>&1');$('profileOutput').textContent=out||'No output';openTab('profiles')}catch(e){toast(e.message)}}
+  async function previewProfile(name){setBusy(true);try{$('profileOutput').textContent=await execCmd('axboost plan '+name+' 2>&1')||'No output'}catch(e){$('profileOutput').textContent=e.message}finally{setBusy(false)}}
+  async function applyProfile(name){const label=name==='balanced'?'restore Balanced':'apply '+name; if(!confirm('Proceed to '+label+'?'))return;setBusy(true);try{const out=await execCmd('axboost '+name+' 2>&1');$('profileOutput').textContent=out||'Done';toast(name==='balanced'?'Original settings restored':'Profile applied');await refreshStatusOnly()}catch(e){$('profileOutput').textContent=e.message;toast('Failed: '+e.message)}finally{setBusy(false)}}
+  async function refreshStatusOnly(){try{parseStatus(await execCmd('axboost status 2>&1'))}catch(e){}}
+  function shellQuote(s){return "'"+String(s).replace(/'/g,"'\"'\"'")+"'"}
+  function validPkg(s){return /^[A-Za-z0-9_]+(\.[A-Za-z0-9_]+)+$/.test(s)}
+  async function loadGames(show=true){try{const out=await execCmd('axboost games list 2>/dev/null');const arr=out.split(/\r?\n/).map(x=>x.trim()).filter(Boolean);const box=$('gamesList');box.innerHTML='';if(!arr.length){box.innerHTML='<div class="sub">No games configured.</div>';return}arr.forEach(pkg=>{const el=document.createElement('div');el.className='game';const code=document.createElement('code');code.textContent=pkg;const controls=document.createElement('div');controls.className='actions';controls.style.margin='0';const launch=document.createElement('button');launch.className='btn secondary';launch.textContent='Launch';launch.onclick=()=>gameAction('launch',pkg);const stop=document.createElement('button');stop.className='btn secondary';stop.textContent='Stop';stop.onclick=()=>gameAction('stop',pkg);const del=document.createElement('button');del.className='x';del.textContent='×';del.title='Remove';del.onclick=()=>removeGame(pkg);controls.append(launch,stop,del);el.append(code,controls);box.appendChild(el)});if(show)toast('Game list refreshed')}catch(e){if(show)toast(e.message)}}
+  async function addGame(){const pkg=$('pkg').value.trim();if(!validPkg(pkg)){toast('Enter a valid package name');return}setBusy(true);try{await execCmd('axboost games add '+shellQuote(pkg)+' 2>&1');$('pkg').value='';await loadGames(false);toast('Game added')}catch(e){toast(e.message)}finally{setBusy(false)}}
+  async function removeGame(pkg){if(!confirm('Remove '+pkg+'?'))return;setBusy(true);try{await execCmd('axboost games remove '+shellQuote(pkg)+' 2>&1');await loadGames(false);toast('Game removed')}catch(e){toast(e.message)}finally{setBusy(false)}}
+  function parseBatteryInfo(raw){const get=k=>{const m=raw.match(new RegExp('^'+k+':\\s*(.+)$','mi'));return m?m[1].trim():'—'};$('batteryHealth').textContent=get('State of health');$('batteryCycles').textContent=get('Charge cycles')}
+  async function loadBatteryOverview(){try{parseBatteryInfo(await execCmd('axboost battery-info 2>&1'))}catch(e){$('batteryHealth').textContent='—';$('batteryCycles').textContent='—'}}
+
+  async function gameAction(action,pkg){setBusy(true);try{const out=await execCmd('axboost games '+action+' '+shellQuote(pkg)+' 2>&1');toast(out.trim()||'Done')}catch(e){toast(e.message)}finally{setBusy(false)}}
+  async function toolCmd(cmd){setBusy(true);try{const out=await execCmd(cmd+' 2>&1');$('toolOutput').textContent=out||'Done';toast('Applied')}catch(e){$('toolOutput').textContent=e.message;toast('Failed: '+e.message)}finally{setBusy(false)}}
+  function displayRefresh(v){toolCmd('axboost display refresh '+v)}
+  function animations(v){toolCmd('axboost display animations '+v)}
+  function blur(v){toolCmd('axboost display blur '+v)}
+  function power(type,v){toolCmd('axboost power '+type+' '+v)}
+  function restorePower(){toolCmd('axboost power restore')}
+  async function loadBatteryInfo(){try{const out=await execCmd('axboost battery-info 2>&1');$('batteryInfoOutput').textContent=out||'No battery data.';parseBatteryInfo(out)}catch(e){$('batteryInfoOutput').textContent=e.message}}
+  async function loadHealth(){try{$('healthOutput').textContent=await execCmd('axboost health 2>&1')||'No health data.'}catch(e){$('healthOutput').textContent=e.message}}
+  async function loadConflicts(){setBusy(true);try{$('conflictOutput').textContent=await execCmd('axboost conflicts 2>&1')||'No overlap data.'}catch(e){$('conflictOutput').textContent=e.message}finally{setBusy(false)}}
+  async function loadLogs(){try{$('logOutput').textContent=await execCmd('axboost log 100 2>&1')||'No log entries yet.'}catch(e){$('logOutput').textContent=e.message}}
+  async function copyLogs(){const t=$('logOutput').textContent;try{await navigator.clipboard.writeText(t);toast('Logs copied')}catch(e){toast('Clipboard unavailable')}}
+  function openTab(id){document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x.dataset.tab===id));document.querySelectorAll('.panel').forEach(x=>x.classList.toggle('active',x.id===id));if(id==='logs')loadLogs();if(id==='games')loadGames(false);if(id==='diagnostics'){loadBatteryInfo();loadHealth()}if(id==='tools'){toolCmd('axboost display status; axboost power status')}}
+  document.querySelectorAll('.tab').forEach(x=>x.onclick=()=>openTab(x.dataset.tab));
+  window.addEventListener('load',()=>setTimeout(refreshAll,350));
+</script>
+</body>
+</html>

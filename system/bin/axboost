@@ -1,0 +1,10 @@
+#!/system/bin/sh
+find_moddir(){ for c in /data/user_de/0/com.android.shell/axeron/plugins/axboost /data/adb/modules/axboost; do [ -d "$c" ] && { echo "$c"; return; }; done; return 1; }
+MODDIR="$(find_moddir)" || { echo "AxBoost not found" >&2; exit 1; }
+case "${1:-status}" in
+ status) exec "$MODDIR/scripts/status.sh";; detect) exec "$MODDIR/scripts/detect.sh";; caps|capabilities) exec "$MODDIR/scripts/capabilities.sh";;
+ health) exec "$MODDIR/scripts/health.sh";; battery-info|battery-health) exec "$MODDIR/scripts/battery_info.sh";; conflicts|scan) exec "$MODDIR/scripts/conflicts.sh";; report) exec "$MODDIR/scripts/report.sh";;
+ display) shift; exec "$MODDIR/scripts/display.sh" "$@";; power) shift; exec "$MODDIR/scripts/power.sh" "$@";;
+ plan) exec "$MODDIR/scripts/profile.sh" --dry-run "${2:-gaming}";; gaming|battery|balanced) exec "$MODDIR/scripts/profile.sh" "$1";; restore) "$MODDIR/scripts/profile.sh" balanced; exec "$MODDIR/scripts/power.sh" restore;;
+ games) shift; exec "$MODDIR/scripts/game.sh" "$@";; log) exec tail -n "${2:-50}" /data/local/tmp/axboost/logs/axboost.log;;
+ *) echo "Usage: axboost {status|detect|caps|health|battery-info|conflicts|report|display ...|power ...|plan [gaming|battery]|gaming|battery|balanced|restore|games ...|log [lines]}" >&2; exit 2;; esac
