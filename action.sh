@@ -22,7 +22,9 @@ case "$c" in
   6) "$MODDIR/scripts/power.sh" status ;;
   7) "$MODDIR/scripts/battery_info.sh" ;;
   8) "$MODDIR/scripts/report.sh" ;;
-  9) tail -n 50 /data/local/tmp/axboost/logs/axboost.log 2>/dev/null ;;
+  9) "$MODDIR/scripts/compatibility.sh" ;;
+  10) "$MODDIR/scripts/benchmark.sh" ;;
+  11) tail -n 50 /data/local/tmp/axboost/logs/axboost.log 2>/dev/null ;;
   0) exit 0 ;;
   *) exit 2 ;;
 esac

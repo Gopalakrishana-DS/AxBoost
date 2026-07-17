@@ -17,7 +17,7 @@ available_ram_mb() {
 profile="balanced"
 [ -f "$AXBOOST_PROFILE_FILE" ] && profile="$(cat "$AXBOOST_PROFILE_FILE" 2>/dev/null)"
 
-printf 'AxBoost v0.6.0\n'
+printf 'AxBoost v0.8.0\n'
 printf '%s\n' '------------------------------'
 printf 'Profile: %s\n' "$profile"
 printf 'Model: %s\n' "$(safe_getprop ro.product.model)"

@@ -1,10 +1,10 @@
 # AxBoost installer script. This file is sourced by the AxManager installer.
 
 if [ "${AXERON:-false}" != "true" ]; then
-  abort "AxBoost v0.2.0 is intended for AxManager."
+  abort "AxBoost v0.8.1 is intended for AxManager."
 fi
 
-ui_print "- Installing AxBoost v0.2.0"
+ui_print "- Installing AxBoost v0.8.1"
 ui_print "- Architecture: ${ARCH:-unknown}"
 ui_print "- Android API: ${API:-unknown}"
 ui_print "- AxManager server: ${AXERONVER:-unknown}"

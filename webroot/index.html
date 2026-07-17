@@ -3,75 +3,140 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0b1220">
   <meta name="color-scheme" content="dark light">
   <title>AxBoost</title>
   <style>
-    :root{--bg:#0b0d12;--card:#151923;--card2:#1b2030;--text:#f4f6fb;--muted:#9ba5b7;--accent:#8ea7ff;--good:#61d095;--warn:#ffca6a;--bad:#ff7d8b;--line:#2a3142;--shadow:0 14px 34px rgba(0,0,0,.28)}
-    @media(prefers-color-scheme:light){:root{--bg:#f2f5fb;--card:#fff;--card2:#f7f9fd;--text:#161a22;--muted:#626d80;--accent:#385bd8;--good:#17834f;--warn:#a96800;--bad:#bf3045;--line:#dce2ee;--shadow:0 12px 28px rgba(35,48,78,.10)}}
-    *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--text);font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
-    .wrap{max-width:760px;margin:auto;padding:18px}.hero{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:6px 0 18px}.brand{display:flex;align-items:center;gap:12px}.logo{width:46px;height:46px;border-radius:15px;background:linear-gradient(145deg,var(--accent),#906cff);display:grid;place-items:center;color:white;font-size:23px;font-weight:850;box-shadow:var(--shadow)}
-    h1{font-size:25px;margin:0}.sub{color:var(--muted);font-size:13px}.pill{border:1px solid var(--line);background:var(--card);padding:7px 10px;border-radius:999px;color:var(--muted);font-size:12px}.pill.good{color:var(--good)}.pill.bad{color:var(--bad)}
-    .tabs{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:14px}.tab{border:1px solid var(--line);background:var(--card);color:var(--muted);padding:10px 4px;border-radius:12px;font-weight:700}.tab.active{background:var(--accent);border-color:transparent;color:white}
-    .panel{display:none}.panel.active{display:block}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:13px;box-shadow:var(--shadow)}.card h2{font-size:17px;margin:0 0 12px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.metric{background:var(--card2);border-radius:13px;padding:12px}.metric b{display:block;font-size:18px;margin-top:3px;overflow-wrap:anywhere}.metric span{font-size:12px;color:var(--muted)}
-    .profiles{display:grid;gap:10px}.profile{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;background:var(--card2);padding:14px;border-radius:14px}.profile strong{display:block;font-size:16px}.profile small{color:var(--muted)}
-    button{font:inherit}.btn{border:0;border-radius:11px;padding:10px 13px;background:var(--accent);color:white;font-weight:750}.btn.secondary{background:transparent;border:1px solid var(--line);color:var(--text)}.btn.good{background:var(--good);color:#07170f}.btn.warn{background:var(--warn);color:#241600}.btn:disabled{opacity:.45}.actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:12px}
-    input{width:100%;border:1px solid var(--line);background:var(--card2);color:var(--text);border-radius:11px;padding:12px;outline:none}.row{display:flex;gap:8px}.row input{flex:1}.list{display:grid;gap:8px;margin-top:12px}.game{display:flex;align-items:center;justify-content:space-between;gap:8px;background:var(--card2);padding:10px 12px;border-radius:11px}.game code{overflow-wrap:anywhere}.x{border:0;background:transparent;color:var(--bad);font-size:18px;padding:4px 8px}
-    pre{margin:0;white-space:pre-wrap;overflow-wrap:anywhere;background:#080a0f;color:#d9e2f2;border-radius:13px;padding:13px;min-height:130px;max-height:420px;overflow:auto;font:12px/1.5 ui-monospace,SFMono-Regular,Consolas,monospace}.notice{color:var(--muted);font-size:12px;margin-top:10px}.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(80px);opacity:0;background:#202636;color:white;padding:11px 15px;border-radius:12px;transition:.22s;z-index:9;max-width:88%;text-align:center}.toast.show{transform:translateX(-50%) translateY(0);opacity:1}.spinner{display:none;width:18px;height:18px;border:2px solid var(--line);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}.busy .spinner{display:block}@keyframes spin{to{transform:rotate(360deg)}}
-    @media(max-width:520px){.wrap{padding:13px}.grid{grid-template-columns:1fr 1fr}.tabs{gap:5px}.tab{font-size:12px}.profile{grid-template-columns:1fr}.profile .btn{width:100%}}
+    :root{
+      --bg:#08101d;--surface:#0f1a2b;--surface-2:#152238;--surface-3:#1b2b45;
+      --text:#f7f9fc;--muted:#9eabc0;--line:rgba(255,255,255,.09);
+      --primary:#7c9cff;--primary-2:#8d6cff;--success:#57d49b;--warning:#ffca6b;--danger:#ff7f92;
+      --shadow:0 18px 45px rgba(0,0,0,.28);--radius-xl:26px;--radius-lg:20px;--radius-md:15px;
+    }
+    @media(prefers-color-scheme:light){:root{
+      --bg:#f2f5fb;--surface:#ffffff;--surface-2:#f7f9fd;--surface-3:#edf2fa;
+      --text:#172033;--muted:#68758a;--line:rgba(28,44,72,.11);
+      --primary:#4466dd;--primary-2:#7655e8;--success:#16895b;--warning:#b26e00;--danger:#c33b52;
+      --shadow:0 16px 38px rgba(34,51,84,.10)
+    }}
+    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+    html{scroll-behavior:smooth}
+    body{margin:0;min-height:100vh;background:
+      radial-gradient(circle at top right,rgba(124,156,255,.16),transparent 32%),
+      radial-gradient(circle at top left,rgba(141,108,255,.10),transparent 27%),var(--bg);
+      color:var(--text);font:15px/1.5 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+      padding:env(safe-area-inset-top) 0 calc(88px + env(safe-area-inset-bottom));
+    }
+    button,input{font:inherit}.shell{max-width:820px;margin:0 auto;padding:18px 16px 28px}
+    .topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:4px 0 18px}
+    .brand{display:flex;align-items:center;gap:13px}.logo{width:50px;height:50px;border-radius:17px;display:grid;place-items:center;
+      background:linear-gradient(145deg,var(--primary),var(--primary-2));box-shadow:0 12px 28px rgba(89,109,235,.30);font-weight:900;font-size:23px;color:#fff}
+    h1,h2,h3,p{margin-top:0}.brand h1{font-size:23px;margin:0;letter-spacing:-.4px}.eyebrow{font-size:12px;color:var(--muted);margin-top:1px}
+    .status-wrap{display:flex;align-items:center;gap:8px}.pill{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:rgba(255,255,255,.04);padding:8px 11px;border-radius:999px;color:var(--muted);font-size:12px;font-weight:700}
+    .pill:before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor;opacity:.75}.pill.good{color:var(--success)}.pill.bad{color:var(--danger)}
+    .spinner{display:none;width:18px;height:18px;border:2px solid var(--line);border-top-color:var(--primary);border-radius:50%;animation:spin .75s linear infinite}.busy .spinner{display:block}@keyframes spin{to{transform:rotate(360deg)}}
+    .hero{position:relative;overflow:hidden;border:1px solid var(--line);background:linear-gradient(145deg,rgba(124,156,255,.15),rgba(141,108,255,.07)),var(--surface);border-radius:var(--radius-xl);padding:22px;box-shadow:var(--shadow);margin-bottom:14px}
+    .hero:after{content:"";position:absolute;right:-45px;top:-70px;width:170px;height:170px;border-radius:50%;background:linear-gradient(145deg,var(--primary),var(--primary-2));opacity:.12;filter:blur(2px)}
+    .hero h2{font-size:26px;line-height:1.15;margin-bottom:7px;letter-spacing:-.6px}.hero p{color:var(--muted);max-width:560px;margin-bottom:18px}
+    .hero-actions,.actions{display:flex;flex-wrap:wrap;gap:9px}.btn{border:0;border-radius:13px;padding:11px 14px;background:var(--primary);color:#fff;font-weight:800;min-height:44px;cursor:pointer}
+    .btn.secondary{background:var(--surface-2);color:var(--text);border:1px solid var(--line)}.btn.success{background:var(--success);color:#062116}.btn.warning{background:var(--warning);color:#2a1b00}.btn.danger{background:var(--danger);color:#2a0710}.btn:disabled{opacity:.45;cursor:not-allowed}
+    .section-head{display:flex;justify-content:space-between;align-items:end;gap:12px;margin:22px 2px 10px}.section-head h2{font-size:18px;margin:0}.section-head span{font-size:12px;color:var(--muted)}
+    .card{background:rgba(15,26,43,.92);border:1px solid var(--line);border-radius:var(--radius-lg);padding:17px;margin-bottom:12px;box-shadow:var(--shadow);backdrop-filter:blur(14px)}
+    @media(prefers-color-scheme:light){.card{background:rgba(255,255,255,.94)}}
+    .card h2{font-size:17px;margin-bottom:5px}.card-sub{color:var(--muted);font-size:13px;margin-bottom:14px}
+    .metrics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.metric{background:var(--surface-2);border:1px solid var(--line);border-radius:16px;padding:13px;min-height:86px}
+    .metric span{display:block;color:var(--muted);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.55px}.metric b{display:block;font-size:18px;line-height:1.25;margin-top:7px;overflow-wrap:anywhere}
+    .profiles{display:grid;gap:10px}.profile{background:var(--surface-2);border:1px solid var(--line);border-radius:17px;padding:15px;display:grid;grid-template-columns:1fr auto;gap:13px;align-items:center}
+    .profile strong{display:block;font-size:16px}.profile small{display:block;color:var(--muted);margin-top:3px;max-width:560px}.profile .btn{min-width:92px}
+    .icon-chip{width:40px;height:40px;border-radius:13px;background:var(--surface-3);display:grid;place-items:center;font-size:18px;flex:none}.profile-copy{display:flex;gap:12px;align-items:flex-start}
+    .row{display:flex;gap:9px}.row input{flex:1}input{width:100%;background:var(--surface-2);border:1px solid var(--line);border-radius:13px;padding:12px 13px;color:var(--text);outline:none;min-height:45px}input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(124,156,255,.13)}
+    .list{display:grid;gap:9px;margin-top:13px}.game{background:var(--surface-2);border:1px solid var(--line);border-radius:15px;padding:11px 12px;display:flex;justify-content:space-between;align-items:center;gap:10px}.game code{overflow-wrap:anywhere;color:var(--text)}.game .actions{margin:0}.x{border:0;background:transparent;color:var(--danger);font-size:22px;padding:5px 9px}
+    .tool-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.tool-card{background:var(--surface-2);border:1px solid var(--line);border-radius:17px;padding:15px}.tool-card h3{font-size:15px;margin-bottom:4px}.tool-card p{font-size:12px;color:var(--muted);min-height:36px;margin-bottom:11px}.tool-card .actions{gap:7px}.tool-card .btn{padding:9px 11px;min-height:39px;font-size:13px}
+    pre{margin:0;white-space:pre-wrap;overflow-wrap:anywhere;background:#060b14;color:#dbe6f8;border:1px solid rgba(255,255,255,.07);border-radius:15px;padding:14px;min-height:132px;max-height:430px;overflow:auto;font:12px/1.55 ui-monospace,SFMono-Regular,Consolas,monospace}
+    .notice{font-size:12px;color:var(--muted);margin:10px 0 0}.safety{display:flex;gap:12px;align-items:flex-start}.safety .icon-chip{color:var(--success)}
+    .panel{display:none;animation:fade .2s ease}.panel.active{display:block}@keyframes fade{from{opacity:.35;transform:translateY(4px)}to{opacity:1;transform:none}}
+    .bottom-nav{position:fixed;z-index:20;left:50%;bottom:max(10px,env(safe-area-inset-bottom));transform:translateX(-50%);width:min(790px,calc(100% - 20px));display:grid;grid-template-columns:repeat(6,1fr);gap:4px;padding:7px;background:rgba(14,23,38,.88);border:1px solid var(--line);border-radius:21px;box-shadow:0 16px 42px rgba(0,0,0,.34);backdrop-filter:blur(18px)}
+    @media(prefers-color-scheme:light){.bottom-nav{background:rgba(255,255,255,.9)}}
+    .tab{border:0;background:transparent;color:var(--muted);border-radius:14px;padding:9px 4px 7px;font-size:10px;font-weight:800;display:grid;place-items:center;gap:3px;min-width:0}.tab .nav-icon{font-size:17px;line-height:1}.tab.active{background:var(--surface-3);color:var(--text)}
+    .toast{position:fixed;z-index:30;left:50%;bottom:104px;transform:translateX(-50%) translateY(25px);opacity:0;background:#1d2a41;color:#fff;border:1px solid rgba(255,255,255,.09);box-shadow:var(--shadow);padding:11px 15px;border-radius:13px;transition:.2s;max-width:88%;text-align:center}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+    @media(max-width:620px){.shell{padding:13px 12px 24px}.topbar{align-items:flex-start}.pill{max-width:135px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.hero{padding:19px}.hero h2{font-size:23px}.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.profile{grid-template-columns:1fr}.profile>.btn{width:100%}.tool-grid{grid-template-columns:1fr}.bottom-nav{grid-template-columns:repeat(6,1fr)}.tab{font-size:9px}.game{align-items:flex-start;flex-direction:column}.game .actions{width:100%}.game .btn{flex:1}.row{flex-direction:column}.row .btn{width:100%}}
   </style>
 </head>
 <body>
-<div class="wrap" id="app">
-  <header class="hero"><div class="brand"><div class="logo">A</div><div><h1>AxBoost</h1><div class="sub">Safe, reversible performance profiles</div></div></div><div style="display:flex;align-items:center;gap:8px"><div class="spinner"></div><span id="bridge" class="pill">Checking bridge…</span></div></header>
-  <nav class="tabs"><button class="tab active" data-tab="home">Overview</button><button class="tab" data-tab="profiles">Profiles</button><button class="tab" data-tab="games">Games</button><button class="tab" data-tab="tools">Tools</button><button class="tab" data-tab="diagnostics">Diagnostics</button><button class="tab" data-tab="logs">Logs</button></nav>
+<div class="shell" id="app">
+  <header class="topbar">
+    <div class="brand"><div class="logo">A</div><div><h1>AxBoost</h1><div class="eyebrow">Performance control, without unsafe tweaks</div></div></div>
+    <div class="status-wrap"><div class="spinner"></div><span id="bridge" class="pill">Checking bridge…</span></div>
+  </header>
 
-  <section id="home" class="panel active">
-    <div class="card"><h2>Current status</h2><div class="grid">
-      <div class="metric"><span>Profile</span><b id="profile">—</b></div><div class="metric"><span>Peak refresh</span><b id="refresh">—</b></div>
-      <div class="metric"><span>Battery temperature</span><b id="battery">—</b></div><div class="metric"><span>Available RAM</span><b id="ram">—</b></div>
-      <div class="metric"><span>Battery health</span><b id="batteryHealth">—</b></div><div class="metric"><span>Charge cycles</span><b id="batteryCycles">—</b></div>
-      <div class="metric"><span>Device</span><b id="device">—</b></div><div class="metric"><span>Android</span><b id="android">—</b></div>
-    </div><div class="actions"><button class="btn secondary" onclick="refreshAll()">Refresh</button><button class="btn secondary" onclick="showRawStatus()">Raw status</button></div></div>
-    <div class="card"><h2>Safety</h2><div class="sub">AxBoost does not disable thermal protection, V-Sync, or modify CPU/GPU governors. Balanced restores values backed up before AxBoost changed them.</div></div>
-  </section>
+  <main>
+    <section id="home" class="panel active">
+      <div class="hero"><h2>Your device, tuned safely.</h2><p>Apply reversible profiles, inspect battery health, and manage supported Android controls from one clean dashboard.</p><div class="hero-actions"><button class="btn" onclick="applyProfile('gaming')">Activate Gaming</button><button class="btn secondary" onclick="refreshAll()">Refresh status</button></div></div>
+      <div class="section-head"><h2>Live overview</h2><span>Current device state</span></div>
+      <div class="card"><div class="metrics">
+        <div class="metric"><span>Profile</span><b id="profile">—</b></div><div class="metric"><span>Peak refresh</span><b id="refresh">—</b></div>
+        <div class="metric"><span>Battery temp</span><b id="battery">—</b></div><div class="metric"><span>Available RAM</span><b id="ram">—</b></div>
+        <div class="metric"><span>Battery health</span><b id="batteryHealth">—</b></div><div class="metric"><span>Charge cycles</span><b id="batteryCycles">—</b></div>
+        <div class="metric"><span>Device</span><b id="device">—</b></div><div class="metric"><span>Android</span><b id="android">—</b></div>
+      </div><div class="actions" style="margin-top:13px"><button class="btn secondary" onclick="showRawStatus()">View raw status</button></div></div>
+      <div class="card safety"><div class="icon-chip">✓</div><div><h2>Built around safety</h2><div class="card-sub" style="margin:0">AxBoost never disables thermal protection, V-Sync, or CPU/GPU governors. Balanced restores settings saved before changes were applied.</div></div></div>
+    </section>
 
-  <section id="profiles" class="panel">
-    <div class="card"><h2>Choose a profile</h2><div class="profiles">
-      <div class="profile"><div><strong>Gaming</strong><small>Highest detected refresh, shorter animations, reduced window blur, Game Mode performance.</small></div><button class="btn" onclick="applyProfile('gaming')">Apply</button></div>
-      <div class="profile"><div><strong>Balanced</strong><small>Restore exact backed-up settings and return configured games to standard mode.</small></div><button class="btn good" onclick="applyProfile('balanced')">Restore</button></div>
-      <div class="profile"><div><strong>Battery</strong><small>60 Hz request, shorter animations, reduced window blur, Game Mode battery.</small></div><button class="btn warn" onclick="applyProfile('battery')">Apply</button></div>
-    </div><div class="actions"><button class="btn secondary" onclick="previewProfile('gaming')">Preview Gaming</button><button class="btn secondary" onclick="previewProfile('battery')">Preview Battery</button></div><p class="notice">Restart a game after changing its Android Game Mode.</p></div>
-    <div class="card"><h2>Command output</h2><pre id="profileOutput">Select a profile or preview.</pre></div>
-  </section>
+    <section id="profiles" class="panel">
+      <div class="section-head"><h2>Performance profiles</h2><span>Reversible presets</span></div>
+      <div class="card"><div class="profiles">
+        <div class="profile"><div class="profile-copy"><div class="icon-chip">⚡</div><div><strong>Gaming</strong><small>Highest detected refresh, shorter animations, reduced blur, and Android Game Mode performance.</small></div></div><button class="btn" onclick="applyProfile('gaming')">Apply</button></div>
+        <div class="profile"><div class="profile-copy"><div class="icon-chip">◎</div><div><strong>Balanced</strong><small>Restore exact backed-up settings and configured games to standard mode.</small></div></div><button class="btn success" onclick="applyProfile('balanced')">Restore</button></div>
+        <div class="profile"><div class="profile-copy"><div class="icon-chip">◒</div><div><strong>Battery</strong><small>60 Hz request, shorter animations, reduced blur, and Android Game Mode battery mode.</small></div></div><button class="btn warning" onclick="applyProfile('battery')">Apply</button></div>
+      </div><div class="actions" style="margin-top:13px"><button class="btn secondary" onclick="previewProfile('gaming')">Preview Gaming</button><button class="btn secondary" onclick="previewProfile('battery')">Preview Battery</button></div><p class="notice">Restart a game after changing its Android Game Mode.</p></div>
+      <div class="card"><h2>Command output</h2><div class="card-sub">Profile plans and results appear here.</div><pre id="profileOutput">Select a profile or preview.</pre></div>
+    </section>
 
-  <section id="games" class="panel">
-    <div class="card"><h2>Configured games</h2><div class="row"><input id="pkg" placeholder="com.example.game" autocomplete="off" autocapitalize="none"><button class="btn" onclick="addGame()">Add</button></div><div id="gamesList" class="list"></div><p class="notice">Use the exact Android package name. Invalid names are rejected by both the WebUI and shell script.</p></div>
-  </section>
+    <section id="games" class="panel">
+      <div class="section-head"><h2>Game manager</h2><span>Packages and shortcuts</span></div>
+      <div class="card"><h2>Add a game</h2><div class="card-sub">Enter the exact Android package name.</div><div class="row"><input id="pkg" placeholder="com.example.game" autocomplete="off" autocapitalize="none"><button class="btn" onclick="addGame()">Add game</button></div><div id="gamesList" class="list"></div><p class="notice">Invalid package names are rejected by both the WebUI and shell script.</p></div>
+    </section>
 
-  <section id="tools" class="panel">
-    <div class="card"><h2>Display</h2><div class="profiles">
-      <div class="profile"><div><strong>Refresh preference</strong><small>Request a supported peak rate or return control to the ROM.</small></div><div class="actions"><button class="btn secondary" onclick="displayRefresh('auto')">Auto</button><button class="btn secondary" onclick="displayRefresh('60')">60</button><button class="btn secondary" onclick="displayRefresh('90')">90</button><button class="btn" onclick="displayRefresh('120')">120</button></div></div>
-      <div class="profile"><div><strong>Animations</strong><small>Choose Android's standard animation scale settings.</small></div><div class="actions"><button class="btn secondary" onclick="animations('off')">Off</button><button class="btn" onclick="animations('fast')">0.5×</button><button class="btn secondary" onclick="animations('normal')">1×</button></div></div>
-      <div class="profile"><div><strong>Window blur</strong><small>Disable or re-enable cross-window blur. This does not change in-game rendering.</small></div><div class="actions"><button class="btn secondary" onclick="blur('on')">On</button><button class="btn" onclick="blur('off')">Off</button></div></div>
-    </div></div>
-    <div class="card"><h2>Power</h2><div class="profiles">
-      <div class="profile"><div><strong>Battery Saver</strong><small>Use Android's real PowerManager Battery Saver mode.</small></div><div class="actions"><button class="btn warn" onclick="power('saver','on')">On</button><button class="btn secondary" onclick="power('saver','off')">Off</button></div></div>
-      <div class="profile"><div><strong>Adaptive Battery Saver</strong><small>Available only when the ROM exposes the Android shell command.</small></div><div class="actions"><button class="btn warn" onclick="power('adaptive','on')">On</button><button class="btn secondary" onclick="power('adaptive','off')">Off</button></div></div>
-      <div class="actions"><button class="btn good" onclick="restorePower()">Restore previous power state</button></div>
-    </div>
-    <div class="card"><h2>Tool output</h2><pre id="toolOutput">Choose a display or power control.</pre><p class="notice">All display settings are included in AxBoost backup/restore. Power states are separately backed up when readable.</p></div>
-  </section>
+    <section id="tools" class="panel">
+      <div class="section-head"><h2>Device controls</h2><span>Supported Android settings</span></div>
+      <div class="tool-grid">
+        <div class="tool-card"><h3>Refresh rate</h3><p>Request a supported peak rate or return control to the ROM.</p><div class="actions"><button class="btn secondary" onclick="displayRefresh('auto')">Auto</button><button class="btn secondary" onclick="displayRefresh('60')">60</button><button class="btn secondary" onclick="displayRefresh('90')">90</button><button class="btn" onclick="displayRefresh('120')">120</button></div></div>
+        <div class="tool-card"><h3>Animations</h3><p>Adjust Android's standard animation scale settings.</p><div class="actions"><button class="btn secondary" onclick="animations('off')">Off</button><button class="btn" onclick="animations('fast')">0.5×</button><button class="btn secondary" onclick="animations('normal')">1×</button></div></div>
+        <div class="tool-card"><h3>Window blur</h3><p>Toggle cross-window blur without changing in-game rendering.</p><div class="actions"><button class="btn secondary" onclick="blur('on')">On</button><button class="btn" onclick="blur('off')">Off</button></div></div>
+        <div class="tool-card"><h3>Battery Saver</h3><p>Use Android's actual PowerManager Battery Saver mode.</p><div class="actions"><button class="btn warning" onclick="power('saver','on')">On</button><button class="btn secondary" onclick="power('saver','off')">Off</button></div></div>
+        <div class="tool-card"><h3>Adaptive Saver</h3><p>Available only when exposed by the device ROM.</p><div class="actions"><button class="btn warning" onclick="power('adaptive','on')">On</button><button class="btn secondary" onclick="power('adaptive','off')">Off</button></div></div>
+        <div class="tool-card"><h3>Restore power</h3><p>Restore the previous power configuration saved by AxBoost.</p><div class="actions"><button class="btn success" onclick="restorePower()">Restore</button></div></div>
+        <div class="tool-card"><h3>Responsive pack</h3><p>Faster Android animations and reduced cross-window blur.</p><div class="actions"><button class="btn" onclick="tweakPack('responsive')">Apply</button></div></div>
+        <div class="tool-card"><h3>Battery efficiency</h3><p>Reduce idle radios and enable supported Android battery controls.</p><div class="actions"><button class="btn warning" onclick="tweakPack('battery')">Apply</button></div></div>
+        <div class="tool-card"><h3>Quiet interface</h3><p>Disable optional touch, UI, and lock-screen feedback.</p><div class="actions"><button class="btn secondary" onclick="tweakPack('quiet')">Apply</button></div></div>
+        <div class="tool-card"><h3>ADB tweak catalog</h3><p>Inspect every supported tweak and its current read-back value.</p><div class="actions"><button class="btn secondary" onclick="tweakStatus()">Status</button><button class="btn success" onclick="restoreTweaks()">Restore all</button></div></div>
+      </div>
+      <div class="card" style="margin-top:12px"><h2>Control output</h2><pre id="toolOutput">Choose a control to view its result.</pre></div>
+    </section>
 
-  <section id="diagnostics" class="panel">
-    <div class="card"><h2>Battery health</h2><div class="actions" style="margin:0 0 12px"><button class="btn secondary" onclick="loadBatteryInfo()">Refresh battery</button></div><pre id="batteryInfoOutput">Battery health and cycle data will appear here.</pre><p class="notice">Health may be reported by the battery controller or estimated from full-charge versus design capacity. Unsupported values remain unavailable.</p></div>
-    <div class="card"><h2>Device health</h2><div class="actions" style="margin:0 0 12px"><button class="btn secondary" onclick="loadHealth()">Refresh health</button><button class="btn secondary" onclick="loadConflicts()">Scan plugins</button></div><pre id="healthOutput">Open this tab to load current device health.</pre></div>
-    <div class="card"><h2>Potential plugin overlaps</h2><pre id="conflictOutput">Run the scanner to check readable AxManager plugin scripts.</pre><p class="notice">The scanner reports possible overlapping areas. It does not inspect native binaries and does not automatically disable anything.</p></div>
-  </section>
+    <section id="diagnostics" class="panel">
+      <div class="section-head"><h2>Diagnostics</h2><span>Health and compatibility</span></div>
+      <div class="card"><h2>Battery details</h2><div class="actions" style="margin:0 0 12px"><button class="btn secondary" onclick="loadBatteryInfo()">Refresh battery</button></div><pre id="batteryInfoOutput">Battery health and cycle data will appear here.</pre><p class="notice">Unsupported values remain unavailable rather than being guessed.</p></div>
+      <div class="card"><h2>Device health</h2><div class="actions" style="margin:0 0 12px"><button class="btn secondary" onclick="loadHealth()">Refresh health</button><button class="btn secondary" onclick="loadConflicts()">Scan plugins</button></div><pre id="healthOutput">Open this tab to load current device health.</pre></div>
+      <div class="card"><h2>Potential plugin overlaps</h2><pre id="conflictOutput">Run the scanner to check readable AxManager plugin scripts.</pre><p class="notice">Possible overlaps are reported without automatically disabling anything.</p></div>
+      <div class="card"><h2>Compatibility and baseline</h2><div class="actions" style="margin:0 0 12px"><button class="btn secondary" onclick="loadCompatibility()">Check compatibility</button><button class="btn secondary" onclick="runBenchmark()">Run baseline</button></div><pre id="compatOutput">Classify supported, experimental, and unsupported features.</pre><p class="notice">The baseline samples current load and temperature; it does not claim to measure game FPS.</p></div>
+    </section>
 
-  <section id="logs" class="panel">
-    <div class="card"><h2>Recent activity</h2><div class="actions" style="margin:0 0 12px"><button class="btn secondary" onclick="loadLogs()">Refresh</button><button class="btn secondary" onclick="copyLogs()">Copy</button></div><pre id="logOutput">Loading…</pre></div>
-  </section>
+    <section id="logs" class="panel">
+      <div class="section-head"><h2>Activity logs</h2><span>Recent AxBoost actions</span></div>
+      <div class="card"><div class="actions" style="margin:0 0 12px"><button class="btn secondary" onclick="loadLogs()">Refresh</button><button class="btn secondary" onclick="copyLogs()">Copy logs</button></div><pre id="logOutput">Loading…</pre></div>
+    </section>
+  </main>
 </div>
+
+<nav class="bottom-nav" aria-label="Primary navigation">
+  <button class="tab active" data-tab="home"><span class="nav-icon">⌂</span><span>Home</span></button>
+  <button class="tab" data-tab="profiles"><span class="nav-icon">⚡</span><span>Profiles</span></button>
+  <button class="tab" data-tab="games"><span class="nav-icon">◈</span><span>Games</span></button>
+  <button class="tab" data-tab="tools"><span class="nav-icon">⌘</span><span>Tools</span></button>
+  <button class="tab" data-tab="diagnostics"><span class="nav-icon">◎</span><span>Health</span></button>
+  <button class="tab" data-tab="logs"><span class="nav-icon">≡</span><span>Logs</span></button>
+</nav>
 <div id="toast" class="toast"></div>
 <script>
   const $=id=>document.getElementById(id);
@@ -118,12 +183,17 @@
   function blur(v){toolCmd('axboost display blur '+v)}
   function power(type,v){toolCmd('axboost power '+type+' '+v)}
   function restorePower(){toolCmd('axboost power restore')}
+  function tweakPack(name){if(confirm('Apply '+name+' ADB tweak pack?'))toolCmd('axboost tweaks pack '+name)}
+  function tweakStatus(){toolCmd('axboost tweaks status')}
+  function restoreTweaks(){if(confirm('Restore all SettingsProvider values backed up by AxBoost?'))toolCmd('axboost tweaks restore')}
   async function loadBatteryInfo(){try{const out=await execCmd('axboost battery-info 2>&1');$('batteryInfoOutput').textContent=out||'No battery data.';parseBatteryInfo(out)}catch(e){$('batteryInfoOutput').textContent=e.message}}
   async function loadHealth(){try{$('healthOutput').textContent=await execCmd('axboost health 2>&1')||'No health data.'}catch(e){$('healthOutput').textContent=e.message}}
   async function loadConflicts(){setBusy(true);try{$('conflictOutput').textContent=await execCmd('axboost conflicts 2>&1')||'No overlap data.'}catch(e){$('conflictOutput').textContent=e.message}finally{setBusy(false)}}
+  async function loadCompatibility(){setBusy(true);try{$('compatOutput').textContent=await execCmd('axboost compatibility 2>&1')||'No compatibility data.'}catch(e){$('compatOutput').textContent=e.message}finally{setBusy(false)}}
+  async function runBenchmark(){setBusy(true);try{$('compatOutput').textContent=await execCmd('axboost benchmark 2>&1')||'No baseline data.';toast('Baseline saved')}catch(e){$('compatOutput').textContent=e.message}finally{setBusy(false)}}
   async function loadLogs(){try{$('logOutput').textContent=await execCmd('axboost log 100 2>&1')||'No log entries yet.'}catch(e){$('logOutput').textContent=e.message}}
   async function copyLogs(){const t=$('logOutput').textContent;try{await navigator.clipboard.writeText(t);toast('Logs copied')}catch(e){toast('Clipboard unavailable')}}
-  function openTab(id){document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x.dataset.tab===id));document.querySelectorAll('.panel').forEach(x=>x.classList.toggle('active',x.id===id));if(id==='logs')loadLogs();if(id==='games')loadGames(false);if(id==='diagnostics'){loadBatteryInfo();loadHealth()}if(id==='tools'){toolCmd('axboost display status; axboost power status')}}
+  function openTab(id){document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x.dataset.tab===id));document.querySelectorAll('.panel').forEach(x=>x.classList.toggle('active',x.id===id));if(id==='logs')loadLogs();if(id==='games')loadGames(false);if(id==='diagnostics'){loadBatteryInfo();loadHealth()}if(id==='tools'){toolCmd('axboost display status; axboost power status; echo; axboost tweaks status')}}
   document.querySelectorAll('.tab').forEach(x=>x.onclick=()=>openTab(x.dataset.tab));
   window.addEventListener('load',()=>setTimeout(refreshAll,350));
 </script>

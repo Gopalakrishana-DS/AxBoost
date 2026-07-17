@@ -1,7 +1,7 @@
 id=axboost
 name=AxBoost
-version=0.7.0
-versionCode=8
+version=0.9.0
+versionCode=11
 author=Gopal M & OpenAI
-description=Safe reversible profiles, WebUI controls, display and power tools, game launcher, diagnostics, battery health, and plugin conflict detection.
+description=HyperOS 2 ADB tweak catalog with read-back verification and rollback; Safe reversible profiles, per-game assignments, compatibility checks, read-only benchmarks, diagnostics, battery health, and WebUI controls.
 axeronPlugin=3

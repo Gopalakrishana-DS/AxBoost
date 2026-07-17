@@ -7,6 +7,8 @@ echo
 echo
 "$MODDIR/scripts/capabilities.sh"
 echo
+"$MODDIR/scripts/compatibility.sh"
+echo
 "$MODDIR/scripts/display.sh" status
 echo
 "$MODDIR/scripts/power.sh" status

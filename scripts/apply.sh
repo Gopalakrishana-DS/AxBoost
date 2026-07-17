@@ -34,7 +34,7 @@ case "${1:-}" in
     apply_setting "$2" "$3" "$4"
     ;;
   *)
-    echo "AxBoost v0.2.0 deliberately contains no optimization profile."
+    echo "AxBoost v0.8.0 deliberately contains no optimization profile."
     echo "Developer usage: apply.sh setting <namespace> <key> <value>"
     ;;
 esac
